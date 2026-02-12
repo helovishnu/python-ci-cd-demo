@@ -1,14 +1,26 @@
 #!/bin/bash
+set -e
+
 cd /home/ubuntu/python-ci-cd-demo
 
-# Activate virtual environment
+# Remove old venv if exists
+rm -rf venv
+
+# Create fresh virtual environment
+python3 -m venv venv
+
+# Activate venv
 source venv/bin/activate
+
+# Upgrade pip
+pip install --upgrade pip
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Stop old app if running
+# Kill old app
 pkill -f app.py || true
 
-# Start app using python3
+# Start app
 nohup python3 app.py > app.log 2>&1 &
+
